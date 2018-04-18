@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>GL Admin</title><meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		    <link rel="stylesheet" href="https://s3.amazonaws.com/admin-gl/css/bootstrap.min.css" />
+		    <link rel="stylesheet" href="https://s3.amazonaws.com/admin-gl/css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="https://s3.amazonaws.com/admin-gl/css/admin-login.css" />
+        <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+        <link href="https://s3.amazonaws.com/admin-gl/font/css/font-awesome.css" rel="stylesheet" />
+		    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+    </head>
+    <body>
+        <%= if @maybe_user == nil do %>
+            <p class="alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+            <p class="alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+
+            <div id="loginbox">
+                <!-- <form id="loginform" class="form-vertical" action="index.html"> -->
+                <%= form_for @changeset, @action, [id: "loginform", class: "form-vertical"], fn f -> %>
+				        <div class="control-group normal_text"> <h3><img src="https://s3.amazonaws.com/admin-gl/img/Logo-Good-Look-corporativo-1.png" alt="Logo" /></h3></div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_lg"><i class="icon-user"> </i></span>
+                            <%#= label f, :username, class: "control-label" %>
+                            <%= text_input f, :username, class: "form-control" %>
+                            <%= error_tag f, :username %>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="main_input_box">
+                            <span class="add-on bg_ly"><i class="icon-lock"></i></span>
+                            <%#= label f, :password, class: "control-label" %>
+                            <%= password_input f, :password, class: "form-control" %>
+                            <%= error_tag f, :password %>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Recuperar contraseña</a></span>
+                    <span class="pull-right">
+                        <%= submit "Entrar", class: "flip-link btn btn-primary" %>
+                        <!-- <a href="#" class="flip-link btn btn-success" id="do-login"> Entrar</a> -->
+                    </span>
+                </div>
+            <% end %>
+            <form id="recoverform" action="#" class="form-vertical">
+				        <p class="normal_text">Inserta tu email para recibir instrucciones de como recuperar tu contraseña</p>
+
+                <div class="controls">
+                    <div class="main_input_box">
+                        <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail" />
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <span class="pull-left"><a href="#" class="flip-link btn btn-success" id="to-login">&laquo; regresar al login</a></span>
+                    <span class="pull-right"><a class="btn btn-info"/>Recuperar</a></span>
+                </div>
+            </form>
+        </div>
+        <% else %>
+
+        <h1>Hello <%= @maybe_user.username%>!</h1>
+        <span><%= link "Logout", to: page_path(@conn, :logout), method: :post %></span>
+
+        <% end %>
+        <!-- <script src="<%= static_path(@conn, "/js/app.js") %>"></script> -->
+        <script src="https://s3.amazonaws.com/admin-gl/js/jquery.js"></script>
+        <script src="https://s3.amazonaws.com/admin-gl/js/matrix.login.js"></script>
+    </body>
+
+</html>
